@@ -1,7 +1,11 @@
+/*jslint nomen: true */
+/*jslint unparam: true*/
+/*jslint node: true */
+"use strict";
 var orm = require('orm');
 
 module.exports = function (orm, db) {
-        var question = db.define('question', {
+    var question = db.define('question', {
             title: {type: 'text'},
             contents: {type: 'text', big: true},
             createTime: {type: 'date', time: true}
@@ -22,7 +26,7 @@ module.exports = function (orm, db) {
                             title : this.title,
                             contents : this.contents,
                             createTime : this.createTime
-                        }
+                        };
                     }
                 },
                 autoFetch: true,
@@ -32,4 +36,4 @@ module.exports = function (orm, db) {
     question.sync(function (err) {
         err && console.log(err);
     });
-}
+};
