@@ -17,13 +17,12 @@ function setDB(db, cb) {
 }
 
 module.exports = function (cb) {
-    if (connection) return cb (null, connection);
-
-        orm.connect(config.database, function (err, db) {
-            if (err) return cb(err);
-                connection = db;
-                db.settings.set('instance.returnAllErrors', true);
-                setDB(db, cb);
-                }
+    if (connection) {return cb(null, connection); }
+    orm.connect(config.database, function (err, db) {
+        if (err) {return cb(err); }
+        connection = db;
+        db.settings.set('instance.returnAllErrors', true);
+        setDB(db, cb);
+    }
             );
-           }
+};
