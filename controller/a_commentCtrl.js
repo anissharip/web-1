@@ -1,88 +1,94 @@
-var orm=require('orm');
+/*jslint nomen: true */
+/*jslint unparam: true*/
+/*jslint node: true */
+"use strict";
+var orm = require('orm');
 
 //get all answer comments
 exports.getAllAnswersComments = function (req, res) {
 
     req.models.a_comment.find(
-    {
-        'answer_id': req.params.answer_id
-    },function (err, acomments) {
-        if(err){
-            res.status(404).send("Can not find answer comments");
-        }else{
-            res.format({
-                    'application/json': function(){
+        {
+            'answer_id': req.params.answer_id
+        },
+        function (err, acomments) {
+            if (err) {
+                res.status(404).send("Can not find answer comments");
+            } else {
+                res.format({
+                    'application/json': function () {
                         res.status(200).send(acomments);
                     },
-                    'text/html': function(){
+                    'text/html': function () {
                        // res.redirect('/questions/');
-                       res.status(200).send("All answer comments: " + JSON.stringify(acomments));
+                        res.status(200).send("All answer comments: " + JSON.stringify(acomments));
                     },
-                    'default': function(){
+                    'default': function () {
                         res.status(406).send("Not Acceptable");
                     }
                 });
-            console.log("get all answer comments successfully!");
+                console.log("get all answer comments successfully!");
+            }
         }
-    });
+    );
 };
 
 //get a answer comment
 exports.getAnswerComment = function (req, res) {
     req.models.a_comment.get(req.params.acomment_id, function (err, acomment) {
-        if(err){
+        if (err) {
             res.status(404).send('Not found the answer comment');
-        }else {
-            if(acomment.answer_id!=req.params.answer_id){
+        } else {
+            if (acomment.answer_id != req.params.answer_id) {
                 res.send('the answer does not belong to this answer');
-            }else{
+            } else {
                 res.format({
-                    'application/json': function(){
+                    'application/json': function () {
                         res.status(200).send(acomment);
                     },
-                    'text/html': function(){
+                    'text/html': function () {
                       // res.redirect('/questions/' + req.params.question_id);
-                      res.status(200).send("the answer comment is : " + JSON.stringify(acomment));
+                        res.status(200).send("the answer comment is : " + JSON.stringify(acomment));
                     },
-                    'default': function(){
+                    'default': function () {
                         res.status(406).send("Not Acceptable");
                     }
                 });
                 console.log('get a answer comment successfully');
             }
-        } 
+        }
     });
 };
 //create a answer comment 
-exports.createAnswerComment = function(req,res){
-    var answer_id=req.params.answer_id;
+exports.createAnswerComment = function (req, res) {
+    var answer_id = req.params.answer_id;
 
     req.models.a_comment.create({
-     //   title:req.body.title,
-        contents:req.body.contents,
-        createTime:Date.now,
-        answer_id:answer_id
-    },function(err,acomment){
-        if(err) {
+     //   title: req.body.title,
+        contents: req.body.contents,
+        createTime: Date.now,
+        answer_id: answer_id
+    }, function (err, acomment) {
+        if (err) {
             res.status(500).send("Internal Server Error");
-        }else{
+        } else {
             res.format({
-                'application/json': function(){
+                'application/json': function () {
                     res.status(200).send(acomment);
                 },
-                'text/html': function(){
+                'text/html': function () {
                     res.redirect('/questions/');
                 },
-                'default': function(){
+                'default': function () {
                     res.status(406).send("Not Acceptable");
                 }
             });
             console.log('created a answer comment successfully');
         }
-    })
+    });
 }
 //update a answer comment
-exports.updateAnswerComment = function(req,res){
+exports.updateAnswerComment = function (req, res) {
     req.models.a_comment.get(req.params.acomment_id,function(err,acomment){
         if(err) { 
             res.status(404).send("Can not find the answer comment");
