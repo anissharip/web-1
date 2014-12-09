@@ -1,7 +1,11 @@
+/*jslint nomen: true */
+/*jslint unparam: true*/
+/*jslint node: true */
+"use strict";
 var orm = require('orm');
 
 module.exports = function (orm, db) {
-        var a_comment = db.define('a_comment', {
+    var a_comment = db.define('a_comment', {
             title: {type: 'text'},
             contents: {type: 'text', big: true},
             createTime: {type: 'date', time: true}
@@ -21,8 +25,8 @@ module.exports = function (orm, db) {
                         return {
                             title : this.title,
                             contents : this.contents,
-                            createTime : this.createTime,
-                        }
+                            createTime : this.createTime
+                        };
                     }
                 },
                 autoFetch: true,
@@ -33,4 +37,5 @@ module.exports = function (orm, db) {
     a_comment.sync(function (err) {
         err && console.log(err);
     });
-}
+};
+
