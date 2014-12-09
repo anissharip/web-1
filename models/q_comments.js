@@ -1,7 +1,11 @@
+/*jslint nomen: true */
+/*jslint unparam: true*/
+/*jslint node: true */
+"use strict";
 var orm = require('orm');
 
 module.exports = function (orm, db) {
-        var q_comment = db.define('q_comment', {
+    var q_comment = db.define('q_comment', {
             title: {type: 'text'},
             contents: {type: 'text', big: true},
             createTime: {type: 'date', time: true}
