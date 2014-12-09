@@ -5,12 +5,6 @@ Anis A Sharip (aas3g14)
 Jack Webster (jw30g11)
 Antigoni Kritioti (ak5e14)
 
-In our application for the Web Architecture assignment, we developed web pages that allow a client to create, update, get, delete a new question. These HTTP verbs also apply to the answering of a question, as well as the ability to comment on both a question and answer.
-
-Users can run the application in a browser to achieve these functions through our GUI. Users can also test the functions by running CURL commands.
-
-
-
 Runing the application:
 The testing server system is Ubuntu Server LTS 14.04.1, which have Node and SQLite installed.
 
@@ -24,12 +18,18 @@ If you want work with current database, you can skip this step, otherwise, you c
 start the server of the application. use command "npm start" to start the server
 
 4.run the application in browser
-Open the browser and type "http://localhost:3000" in the address bar in the browser and there will show the index page of the application, and users can use functions in the web.
+Open the browser and type the starting URL-http://localhost:3000 in the address bar in the browser and there will show the index page of the application, and users can use functionality in the web.
 
 
-Testing the application:
+Access functionality the application:
 
-Using curl commands:
+there are two ways of accessing all the functionality of the application
+
+1.Using browser
+After running server of the application by "npm start" command in terminal,open browser and type "localhost:3000" which is the starting URL into the address bar. the browser will show 
+the index page of our application. In the page, users can use GUI to access all functionalities which include add,edit,delete question, answers and comments.
+
+2.Using curl commands:
 After running server of the application by "npm start" command in terminal, open another terminal and test the application by follow curl commands:
 
 Testing head:
@@ -40,11 +40,10 @@ Users can also test the head of the http head when implementing other methods li
 
 curl -i http://localhost:3000/questions
 
-
 testing HTTP verbs:
+our application supported 4 kinds of HTTP verbs(get, post, put, delete),users can test these HTTP verbs by following curl commands.
 
 (the question for which id is “2” is already exists in the database)
-
 test GET method:
 curl http://localhost:3000/questions
 
@@ -61,63 +60,3 @@ curl -X DELETE http://localhost:3000/questions/2
 users can test 4 HTTP verbs of answers and comments by routers in API
 
 
-
-API
-
-question part:
-GET method
-http://localhost:3000/questions
-http://localhost:3000/questions/:question_id
-POST method
-http://localhost:3000/questions
-PUT method
-http://localhost:3000/questions/:question_id
-DELETE method
-http://localhost:3000/questions/:question_id
-
-
-answer part:
-GET method
-http://localhost:3000/questions/:questin_id/answers
-http://localhost:3000/questions/:question_id/answers/:answer_id
-POST method
-http://localhost:3000/questions/:question_id/answers
-PUT method
-http://localhost:3000/answers/:answer_id
-DELETE method
-http://localhost:3000/answers/:answer_id
-
-
-question comment part:
-GET method
-http://localhost:3000/questions/:questin_id/qcomments
-http://localhost:3000/questions/:question_id/qcomments/:qcomment_id
-POST method
-http://localhost:3000/questions/:question_id/qcomments
-PUT method
-http://localhost:3000/qcomments/:qcomment_id
-DELETE method
-http://localhost:3000/qcomments/:qcomment_id
-
-answer comment part:
-GET method
-http://localhost:3000/answers/:answer_id/acomments
-http://localhost:3000/answers/:answer_id/acomments/:acomment_id
-POST method
-http://localhost:3000/answers/:answer_id/acomments
-PUT method
-http://localhost:3000/acomments/:acomment_id
-DELETE method
-http://localhost:3000/acomments/:acomment_id
-
-In addition, users can use the following routers to get a specific page in the browser:
-http://localhost:3000/                                                 show the index page
-http://localhost:3000/about                                            show the about page
-http://localhost:3000/askQuestion                                      show the page of asking question
-http://localhost:3000/questions/:question_id/questionEdit              show page of editing question
-http://localhost:3000/questions/:question_id/questionComment           show page of adding question comment
-http://localhost:3000/questions/:question_id/qcommentEdit              show page of editing question comment
-http://localhost:3000/answers/:answer_id/answerEdit                    show page of editing answer
-http://localhost:3000/answers/:answer_id/answerCommen                  show page of adding answer comment
-http://localhost:3000/acomments/:acomment_id/acommentEdit              show page of edting answer comment
-http://localhost:3000/questions/:question_id                           show page of specific question and user can add answer to this question
