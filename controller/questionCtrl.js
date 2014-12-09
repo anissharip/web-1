@@ -10,9 +10,6 @@ exports.getAllQuestions = function (req, res) {
         if (err) {
             res.status(404).send("Can not find questions");
         } else {
-            var items = questions.map(function (q) {
-                    return q.serialize();
-                });
             res.format({
                 'application/json': function () {
                     res.status(200).send(questions);
