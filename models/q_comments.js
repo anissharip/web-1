@@ -26,7 +26,7 @@ module.exports = function (orm, db) {
                             title : this.title,
                             contents : this.contents,
                             createTime : this.createTime
-                        }
+                        };
                     }
                 },
                 autoFetch: true,
@@ -36,6 +36,6 @@ module.exports = function (orm, db) {
     q_comment.hasOne('question', db.models.question, {reverse: 'q_comment', autoFetch: true});
 
     q_comment.sync(function (err) {
-        err && console.log(err);
+        console.log(err);
     });
-}
+};
