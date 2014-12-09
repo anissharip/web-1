@@ -34,6 +34,6 @@ module.exports = function (orm, db) {
                 cache: false
             });
     question.sync(function (err) {
-        err && console.log(err);
+        console.log(err);
     });
 };
