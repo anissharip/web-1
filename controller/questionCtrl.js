@@ -1,90 +1,91 @@
-var orm=require('orm');
+/*jslint nomen: true */
+/*jslint unparam: true*/
+/*jslint node: true */
+"use strict";
+var orm = require('orm');
 
 //get all questions
 exports.getAllQuestions = function (req, res) {
     req.models.question.find(function (err, questions) {
-        if(err){
+        if (err) {
             res.status(404).send("Can not find questions");
-        }else{
-            var items=questions.map(function(q){
-                return q.serialize();
-             });
-
+        } else {
+            var items = questions.map(function (q) {
+                    return q.serialize();
+                });
             res.format({
-                'application/json': function(){
+                'application/json': function () {
                     res.status(200).send(questions);
                 },
-                'text/html': function(){
-                    res.render('index',{
+                'text/html': function () {
+                    res.render('index', {
                         title: "Homepage",
                         questions: questions
                     });
                 },
-                'default': function(){
+                'default': function () {
                     res.status(406).send("Not Acceptable");
-                }                
+                }
             });
-            
             console.log("get all questions successfully!");
         }
     });
 };
-
 //get a question
 exports.getQuestion = function (req, res) {
     req.models.question.get(req.params.question_id, function (err, question) {
-        if(err){
+        if (err) {
             res.status(404).send('Not found the question');
-        }else {
-			res.format({
-				'application/json': function(){
+        } else {
+            res.format({
+                'application/json': function () {
                     res.status(200).send(question);
                 },
-                'text/html': function(){
+                'text/html': function () {
                     res.render('AnswerPage',
-					{
-						title: 'QuestionDetal',
-						Question: question
-					});
+                                   {
+                            title: 'QuestionDetal',
+                            Question: question
+                        });
                 },
-                'default': function(){
+                'default': function () {
                     res.status(406).send("Not Acceptable");
                 }
-			});
+            });
            // res.status(200).send("The question: " + JSON.stringify(question));
             console.log("get a question successfully!");
-        } 
+        }
     });
 };
 //create a question
-exports.createQuestion = function(req,res){
+exports.createQuestion = function (req, res) {
     req.models.question.create({
-        title:req.body.title,
-        contents:req.body.contents,
-        createTime:Date.now
-    },function(err,question){
-        if(err) {
-			res.status(500).send("Internal Server Error");
-        }else{
+        title: req.body.title,
+        contents: req.body.contents,
+        createTime: Date.now
+    }, function (err, question) {
+        if (err) {
+            res.status(500).send("Internal Server Error");
+        } else {
             res.format({
-                'application/json': function(){
+                'application/json': function () {
                     res.status(200).send(question);
                 },
-                'text/html': function(){
+                'text/html': function () {
                     res.redirect('/questions/' + question.id);
                 },
-                'default': function(){
+                'default': function () {
                     res.status(406).send("Not Acceptable");
                 }
             });
             console.log('created a question successfully');
         }
-	})
+    });
 }
 //update a question
-exports.updateQuestion = function(req,res){
-    req.models.question.get(req.params.question_id,function(err,question){
-        if(err) {
+exports.updateQuestion = function (req,res) {
+    req.models.question.get(req.params.question_id,function(err, question){
+        if (err) {
             res.status(404).send("Can not find the question");
         }else{
             if(!req.body.title || !req.body.contents){
@@ -92,19 +93,18 @@ exports.updateQuestion = function(req,res){
             }else{
                 question.title=req.body.title;
                 question.contents=req.body.contents;
-
                 question.save(function(err){
                     if(err) {
                         res.status(500).send("Can not update the question");
                     }else{
                         res.format({
-                            'application/json': function(){
+                            'application/json': function () {
                                 res.status(200).send(question);
                             },
-                            'text/html': function(){
+                             'text/html': function () {
                                 res.redirect('/questions/' + question.id);
                             },
-                            'default': function(){
+                            'default': function () {
                                 res.status(406).send("Not Acceptable");
                             }
                         });
@@ -121,18 +121,18 @@ exports.delQuestion = function(req,res){
         if(err){
 			res.status(404).send("The question is not found");
         }else{
-            question.remove(function(err){
+            question.remove(function (err) {
                 if(err){ 
                     res.status(500).send("Can not delete the question");
                 }else{
                     res.format({
-                        'application/json': function(){
+                        'application/json': function () {
                             res.status(202).send("delete question successfully");
                         },
-                        'text/html': function(){
+                        'text/html': function () {
                             res.redirect('/questions/');
                         },
-                        'default': function(){
+                        'default': function () {
                             res.status(406).send("Not Acceptable");
                         }
                     });
