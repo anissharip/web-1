@@ -35,7 +35,7 @@ module.exports = function (orm, db) {
             });
     a_comment.hasOne('answer', db.models.answer, {reverse: 'a_comment', autoFetch: true});
     a_comment.sync(function (err) {
-        err && console.log(err);
+        console.log(err);
     });
 };
 
