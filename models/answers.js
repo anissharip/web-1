@@ -35,6 +35,6 @@ module.exports = function (orm, db) {
         });
     answer.hasOne('question', db.models.question, {reverse: 'answers', autoFetch: true});
     answer.sync(function (err) {
-        err && console.log(err);
+        console.log(err);
     });
 };
