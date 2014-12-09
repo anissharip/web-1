@@ -1,88 +1,93 @@
-var orm=require('orm');
+/*jslint nomen: true */
+/*jslint unparam: true*/
+/*jslint node: true */
+"use strict";
+var orm = require('orm');
 
 //get all answers
 exports.getAllAnswers = function (req, res) {
 
     req.models.answer.find(
-    {
-        'question_id': req.params.question_id
-    },function (err, answers) {
-        if(err){
-            res.status(404).send("Can not find answers");
-        }else{
-            var items=answers.map(function(a){
-                 return a.serialize();
-             });
-
-                 res.format({
-                    'application/json': function(){
+        {
+            'question_id': req.params.question_id
+        },
+        function (err, answers) {
+            if (err) {
+                res.status(404).send("Can not find answers");
+            } else {
+                var items = answers.map(function (a) {
+                        return a.serialize();
+                    });
+                res.format({
+                    'application/json': function () {
                         res.status(200).send(answers);
                     },
-                    'text/html': function(){
-                      res.status(200).send("All answers: " + JSON.stringify(answers));
+                    'text/html': function () {
+                        res.status(200).send("All answers: " + JSON.stringify(answers));
                     },
-                    'default': function(){
+                    'default': function () {
                         res.status(406).send("Not Acceptable");
                     }
                 });
            // res.status(200).send("All answers: " + JSON.stringify(answers));
-            console.log("get all answers successfully!");
+                console.log("get all answers successfully!");
+            }
         }
-    });
+    );
 };
 
 //get a answer
 exports.getAnswer = function (req, res) {
     req.models.answer.get(req.params.answer_id, function (err, answer) {
-        if(err){
+        if (err) {
             res.status(404).send('Not found the answer');
-        }else {
-            if(answer.question_id!=req.params.question_id){
+        } else {
+            if (answer.question_id !== req.params.question_id) {
                 res.send('the answer does not belong to this question');
-            }else{
+            } else {
                 res.format({
-                    'application/json': function(){
+                    'application/json': function () {
                         res.status(200).send(answer);
                     },
-                    'text/html': function(){
-					res.status(200).send("answer is: " + JSON.stringify(answer));
+                    'text/html': function () {
+                        res.status(200).send("answer is: " + JSON.stringify(answer));
                     },
-                    'default': function(){
+                    'default': function () {
                         res.status(406).send("Not Acceptable");
                     }
                 });
                 console.log('get a answer successfully');
             }
-        } 
+        }
     });
 };
 //create a answer to a question
-exports.createAnswer = function(req,res){
-    var question_id=req.params.question_id;
+exports.createAnswer = function (req, res) {
+    var question_id = req.params.question_id;
 
     req.models.answer.create({
-        title:req.body.title,
-        contents:req.body.contents,
-        createTime:Date.now,
-        question_id:question_id
-    },function(err,answer){
-        if(err) {
+        title: req.body.title,
+        contents: req.body.contents,
+        createTime: Date.now,
+        question_id: question_id
+    }, function (err, answer) {
+        if (err) {
             res.status(500).send("Internal Server Error");
-        }else{
+        } else {
             res.format({
-                'application/json': function(){
+                'application/json': function () {
                     res.status(200).send(answer);
                 },
-                'text/html': function(){
+                'text/html': function () {
                     res.redirect('/questions/' + question_id);
                 },
-                'default': function(){
+                'default': function () {
                     res.status(406).send("Not Acceptable");
                 }
             });
             console.log('created a question successfully');
         }
-    })
+    });
 }
 //updata a answer via answer id 
 exports.updateAnswer = function(req,res){
@@ -146,3 +151,4 @@ exports.delAnswer = function(req,res){
         }
     })
 }
+
